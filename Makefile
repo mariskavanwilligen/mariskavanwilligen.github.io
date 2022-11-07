@@ -11,4 +11,4 @@ help:
 update:
 	git add .
 	git commit -m 'update'
-	git push --set-upstream origin mariska/update
+	git push --set-upstream origin mariska
