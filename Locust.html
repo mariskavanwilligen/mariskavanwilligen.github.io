@@ -26,13 +26,13 @@
 
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Using Locust to perform Load & Stress Tests"/>
-    <meta property="og:description" content="Explore the world of Load and Stress Testing: A guide to understanding these vital performance evaluation techniques and the various options available for conducting them."/>
+    <meta property="og:description" content="Mastering Load Testing with Locust: A step-by-step guide to implementing and harnessing the full potential of Locust for scalable and efficient performance testing."/>
     <meta property="og:site_name" content="Mariska van Willigen" />
     <meta property="og:url" content="https://mariskavanwilligen.github.io/load-&-stress-testing.html"/>
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Using Locust to perform Load & Stress Tests">
-    <meta name="twitter:description" content="Explore the world of Load and Stress Testing: A guide to understanding these vital performance evaluation techniques and the various options available for conducting them.">
+    <meta name="twitter:description" content="Mastering Load Testing with Locust: A step-by-step guide to implementing and harnessing the full potential of Locust for scalable and efficient performance testing.">
     <meta name="twitter:url" content="https://mariskavanwilligen.github.io/load-&-stress-testing.html">
 
     <!-- Feed -->
@@ -103,10 +103,34 @@
       <div class="col-main w3-container">
         <section id="content">
 
-        <h2 id="content-is-coming-soon-">Content is coming soon...</h2>
-        <p>hello!</p>
+        <h2 id="content-is-coming-soon-">Mastering Load Testing with Locust: A step-by-step guide to implementing and harnessing the full potential of Locust for scalable and efficient performance testing.</h2>
+        <h3 id="locust">Locust</h3>
+        <p>Locust is an easy-to-use, distributed, user load testing tool. It is intended for load-testing web sites (or other systems) and figuring out how many concurrent users a system can handle.</p>
+        <p><strong>users</strong> = 100</p>
+        <p><strong>spawnrate</strong> = 20</p>
+        <p>You can specify the max number of concurrent users and the spawnrate of the users in locust. This means that every second 20 users will spawn untill the maximum of 100 users has been met and then the test will continue with the 100 users. You can also specify a max time duration for your test. </p>
+        <p><strong>Pros:</strong></p>
+        <ul>
+        <li><p>Python-Based: Locust uses Python as its scripting language, easier to integrate.</p>
+        </li>
+        <li><p>Easy to Learn: Locust&#39;s scripting language is simple and Pythonic</p>
+        </li>
+        <li><p>Distributed Testing: Locust supports distributed load testing, allowing you to distribute the load across multiple machines for more extensive testing.</p>
+        </li>
+        <li><p>Real-Time Web Interface: Locust provides a real-time web user interface that displays test progress and results, making it user-friendly. It is also possible to generate rapports in other formats.</p>
+        </li>
+        </ul>
+        <p><strong>Cons:</strong></p>
+        <ul>
+        <li><p>Resource Intensive: Locust can be more resource-intensive compared to k6 when simulating a high number of users, which might be a concern for large-scale testing.</p>
+        </li>
+        <li><p>Limited Protocol Support: While Locust primarily focuses on HTTP testing, it may require additional extensions for more advanced protocols.</p>
+        </li>
+        </ul>
+        <p><img alt="" src="/images/testing/locust.png"></p>
+        <h3 id="Implementation">Implementation</h3>
 
-
+        <p>Coming soon..</p>
         </section>
 
         <br><br><br>
