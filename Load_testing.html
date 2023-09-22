@@ -102,10 +102,89 @@
 
       <div class="col-main w3-container">
         <section id="content">
-
-        <h2 id="content-is-coming-soon-">Content is coming soon...</h2>
-        <p>hello!</p>
-
+          <h2 id="context">Introduction</h2>
+          <p>With load testing you can get an idea how much RPS (request per second) or concurrent users your API can handle. You can also test if your API meet certain criterion set in your OKR’s.</p>
+          <p>We need to perform some load testing to see if our new infrastructure can handle the expected load. We also want to test if we can stay under 5 seconds, which has been set as a goal to achieve in our OKR’s.</p>
+          <h2 id="tool-options">Tool options</h2>
+          <h3 id="locust">Locust</h3>
+          <p>Locust is an easy-to-use, distributed, user load testing tool. It is intended for load-testing web sites (or other systems) and figuring out how many concurrent users a system can handle.</p>
+          <p><strong>users</strong> = 100</p>
+          <p><strong>spawnrate</strong> = 20</p>
+          <p>You can specify the max number of concurrent users and the spawnrate of the users in locust. This means that every second 20 users will spawn untill the maximum of 100 users has been met and then the test will continue with the 100 users. You can also specify a max time duration for your test. </p>
+          <p><strong>Pros:</strong></p>
+          <ul>
+          <li><p>Python-Based: Locust uses Python as its scripting language, easier to integrate.</p>
+          </li>
+          <li><p>Easy to Learn: Locust&#39;s scripting language is simple and Pythonic</p>
+          </li>
+          <li><p>Distributed Testing: Locust supports distributed load testing, allowing you to distribute the load across multiple machines for more extensive testing.</p>
+          </li>
+          <li><p>Real-Time Web Interface: Locust provides a real-time web user interface that displays test progress and results, making it user-friendly. It is also possible to generate rapports in other formats.</p>
+          </li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+          <li><p>Resource Intensive: Locust can be more resource-intensive compared to k6 when simulating a high number of users, which might be a concern for large-scale testing.</p>
+          </li>
+          <li><p>Limited Protocol Support: While Locust primarily focuses on HTTP testing, it may require additional extensions for more advanced protocols.</p>
+          </li>
+          </ul>
+          <p><img alt="" src="/images/testing/locust.png"></p>
+          <h3 id="k6">K6</h3>
+          <p>k6 is an open-source, developer-centric load testing tool designed for modern applications and microservices.</p>
+          <p><strong>Pros:</strong></p>
+          <ul>
+          <li><p>Efficient: k6 is known for its efficient resource usage, allowing you to simulate a large number of users with relatively low resource consumption.</p>
+          </li>
+          <li><p>Modern testing approach: k6 is designed for modern performance testing needs, including microservices, APIs, and single-page applications. It supports various protocols like HTTP/1.1, HTTP/2, and WebSocket.</p>
+          </li>
+          <li><p>Real-time reporting: k6 provides real-time test results and metrics, making it easier to identify performance bottlenecks during testing.</p>
+          </li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+          <li><p>Javascript based: Not very straightforward to create test script in Javascript if you don’t have experience with Javascript</p>
+          </li>
+          <li><p>Limited: While k6 has a growing ecosystem of extensions and plugins, it may not have as extensive a set of integrations as some other tools.</p>
+          </li>
+          </ul>
+          <p><img alt="" src="/images/testing/k6.png"></p>
+          <h3 id="taurus-jmeter">Taurus/Jmeter</h3>
+          <p>Taurus is an open-source automation testing framework that simplifies the configuration of Apache JMeter tests using YAML files, making it accessible to non-technical users and enabling powerful load testing capabilities with extensive protocol support and scalability.</p>
+          <p><strong>Pros:</strong></p>
+          <ul>
+          <li><p>Different tooling options: Taurus allows you to work with various testing tools, such as JMeter. JMeter is a mature tool with extensive protocol support.</p>
+          </li>
+          <li><p>YAML Configuration: Taurus uses a YAML-based configuration</p>
+          </li>
+          <li><p>Distributed Testing: JMeter, which Taurus can utilize, supports distributed testing for scalability.</p>
+          </li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+          <li><p>Learning Curve: JMeter can have a steep learning curve, especially for non-technical users. </p>
+          </li>
+          <li><p>Resource Intensive: JMeter can be resource-intensive, especially when running large-scale tests.</p>
+          </li>
+          <li><p>Scripting Complexity: Writing complex JMeter test scripts may require Java programming skills.</p>
+          </li>
+          </ul>
+          <p><img alt="" src="/images/testing/taurus.png"></p>
+          <h2 id="further-improvements">Further improvements</h2>
+          <p>A possible improvement over time could be to make load testing part of the workflow or to deploy on kubernetes. It could be very useful to do a quick load test within a PR to test if a new model or model adjustment is stable enough to handle the load. This can be done by creating a label to deploy to argocd. Two different options can be explored:</p>
+          <ul>
+          <li><p>Running a locust workflow on github runners. It is possible to run locust without the user interface, but to let it output for example a html or csv report. As a result the report can be automatically shown in the PR.</p>
+          </li>
+          <li><p>Deploy a locust job to argocd to run load testing in kubernetes to perform distributed load testing.</p>
+          </li>
+          </ul>
+          <p><strong>References:</strong></p>
+          <p><a href="https://medium.com/@rico098098/load-testing-with-python-fea13369af43">https://medium.com/@rico098098/load-testing-with-python-fea13369af43</a></p>
+          <p><a href="https://medium.com/locust-io-experiments/locust-io-experiments-running-in-kubernetes-95447571a550">https://medium.com/locust-io-experiments/locust-io-experiments-running-in-kubernetes-95447571a550</a></p>
+          <p><a href="https://docs.locust.io/en/stable/">https://docs.locust.io/en/stable/</a> </p>
+          <p><a href="https://k6.io/docs/">https://k6.io/docs/</a> </p>
+          <p><a href="https://gettaurus.org/docs/Index/">https://gettaurus.org/docs/Index/</a></p>
+          
 
         </section>
 
