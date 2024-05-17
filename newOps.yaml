@@ -1,0 +1,812 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 15,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Response time (ms)",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "log": 10,
+              "type": "log"
+            },
+            "showPoints": "always",
+            "spanNulls": 900000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "max": 1000,
+          "min": 10,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 120
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ResponseTime {path=\"/predict\", service=\"Experiment Service\"}"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ResponseTime {path=\"/predict\", service=\"Rule Based Model\"}"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureLogAnalytics": {
+            "query": "traces \n| where customDimensions.environment == \"$environment\" and customDimensions.path == \"/predict\" \n| project timestamp, service=tostring(customDimensions.service), path=tostring(customDimensions.path), ms=toreal(customDimensions.response_time)\n| summarize ResponseTime=avg(ms) by service, path, bin(timestamp, 5m)\n| sort by bin(timestamp, 5m) asc \n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        }
+      ],
+      "title": "Predict Endpoint Performance (ms)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 3,
+      "panels": [],
+      "title": "Events",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where message contains \"Received event {\"\n| where cloud_RoleName == \"dm-orchestrator\"\n| where cloud_RoleInstance contains \"$environment\"\n| summarize EventsIn=count() by bin(timestamp, 5m);",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "table"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where message contains \"total time from count time: \"\n| where cloud_RoleName == \"dm-orchestrator\"\n| where cloud_RoleInstance contains  \"$environment\"\n| summarize EventsOut=count() by bin(timestamp, 5m);\n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "table"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "B"
+        }
+      ],
+      "title": "Orchestrator",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 11
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where $__timeFilter(timestamp)\n| where message contains \"Retrigger events found: \"\n| where cloud_RoleName == \"dm-retrigger\"\n| where cloud_RoleInstance contains \"$environment\"\n| project MarkdownsIn=toint(extract(\"Retrigger events found: ([0-9.]+)\", 1, message)), timestamp\n| sort by timestamp asc",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "hide": false,
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where message contains \"Markdowns to store: \"\n| where cloud_RoleName == \"dm-retrigger\"\n| where cloud_RoleInstance contains \"$environment\"\n| project MakrdownsToStore=toint(extract(\"Markdowns to store: ([0-9.]+)\", 1, message)), timestamp\n| sort by timestamp asc\n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "B"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where message contains \"Markdowns to publish: \"\n| where cloud_RoleName == \"dm-retrigger\"\n| where cloud_RoleInstance contains \"$environment\"\n| project MarkdownsToPublish=toint(extract(\"Markdowns to publish: ([0-9.]+)\", 1, message)), timestamp\n| sort by timestamp asc\n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "hide": false,
+          "queryType": "Azure Log Analytics",
+          "refId": "C"
+        }
+      ],
+      "title": "Retrigger",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-red",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 82,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "\"Fourty\"": {
+                  "color": "dark-blue",
+                  "index": 0,
+                  "text": "40"
+                },
+                "Seventy": {
+                  "color": "semi-dark-orange",
+                  "index": 2,
+                  "text": "70"
+                },
+                "Twentyfive": {
+                  "color": "light-blue",
+                  "index": 1,
+                  "text": "25"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "pattern": "\"Fourty\"",
+                "result": {
+                  "color": "semi-dark-purple",
+                  "index": 3
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 16,
+        "x": 0,
+        "y": 20
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 1,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "percent",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "HourlyTimestamp",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-orchestrator\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"0\"\n| project HourlyTimestamp, Zero = CountPerValue\n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "hide": false,
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-orchestrator\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"25\"\n| project HourlyTimestamp, Twentyfive = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "B"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-orchestrator\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"40\"\n| project HourlyTimestamp, Fourty = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "table"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "C"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-orchestrator\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"70\"\n| project HourlyTimestamp, Seventy = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "table"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "D"
+        }
+      ],
+      "title": "Ochestrator Markdown distribution",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 82,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 16,
+        "x": 0,
+        "y": 32
+      },
+      "id": 7,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 1,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "never",
+        "stacking": "percent",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "HourlyTimestamp",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-retrigger\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"0\"\n| project HourlyTimestamp, Zero = CountPerValue\n",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "hide": false,
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-retrigger\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"25\"\n| project HourlyTimestamp, Twentyfive = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "B"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-retrigger\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"40\"\n| project HourlyTimestamp, Fourty = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "C"
+        },
+        {
+          "azureLogAnalytics": {
+            "query": "traces\n| where cloud_RoleName contains \"dm-retrigger\"\n| where message contains \"Publishing event\"\n| extend message = tostring(message) // Ensure message is a string\n| extend value_start = indexof(message, \"\\\"value\\\":\") // Find the start of the \"value\" field\n| extend sub = substring(message, value_start +8 , 2)\n| project timestamp, message, sub_str = replace_string(sub, \",\", \"\")\n| extend HourlyTimestamp = bin(timestamp, 1h) // Round timestamp to the nearest hour\n| summarize CountPerValue = count() by HourlyTimestamp,sub_str\n| where sub_str has \"70\"\n| project HourlyTimestamp, Seventy = CountPerValue",
+            "resources": [
+              "/subscriptions/31d5b1da-89ad-448c-ba36-15e2546d8f44/resourceGroups/rg-dm-${environment_dsf}-weeu-01/providers/Microsoft.Insights/components/appi-dm-${environment_dsf}-weeu-01"
+            ],
+            "resultFormat": "time_series"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "D"
+        }
+      ],
+      "title": "Retrigger markdown distribution",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "prd",
+          "value": "prd"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Environment DSF",
+        "multi": false,
+        "name": "environment_dsf",
+        "options": [
+          {
+            "selected": true,
+            "text": "prd",
+            "value": "prd"
+          },
+          {
+            "selected": false,
+            "text": "preprd",
+            "value": "preprd"
+          }
+        ],
+        "query": "prd, preprd",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "prd",
+          "value": "prd"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Environment",
+        "multi": false,
+        "name": "environment",
+        "options": [
+          {
+            "selected": true,
+            "text": "prd",
+            "value": "prd"
+          },
+          {
+            "selected": false,
+            "text": "acc",
+            "value": "acc"
+          },
+          {
+            "selected": false,
+            "text": "stg",
+            "value": "stg"
+          }
+        ],
+        "query": "prd, acc, stg",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-2d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Services Dashboard",
+  "uid": "a2821758-38b2-46c2-9ee3-00a580815a62",
+  "version": 15,
+  "weekStart": ""
+}

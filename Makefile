@@ -1,8 +1,9 @@
 # For an update:
+# add page to posts & index
+# html page in main folder
 # conda activate fun
 # make your change & type 'Make update'
-# Go to github and make a pr
-# set base to master
+# git push
 
 
 help:
